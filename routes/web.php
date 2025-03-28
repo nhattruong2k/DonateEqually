@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +23,11 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+Route::get('/change-language/{lang}', function ($lang) {
+    if (in_array($lang, ['vi', 'en',])) {
+        Session::put('lang', $lang);
+        App::setLocale($lang);
+    }
+    return redirect()->back();
+})->name('change-language');
